@@ -7,6 +7,10 @@ export class RefreshToken extends Model {
   public token!: string;
   public userId!: number;
   public expiresAt!: Date;
+
+  public static associate() {
+    RefreshToken.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+  }
 }
 
 RefreshToken.init(
@@ -24,6 +28,3 @@ RefreshToken.init(
   }
 );
 
-// Association: Each RefreshToken belongs to a User
-RefreshToken.belongsTo(User, { foreignKey: 'userId', as: 'user' });
-// Optionally, in your User model: User.hasMany(RefreshToken, { foreignKey: 'userId' });
