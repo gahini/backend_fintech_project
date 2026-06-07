@@ -1,5 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '@/config/dbConfig';
+import { Role } from '@/shared/models/models.role';
+import { RefreshToken } from '@/shared/models/refreshTolen';
 
 import {
   UserAttributes,
@@ -16,6 +18,11 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+   public static associate() {
+    User.belongsTo(Role, { foreignKey: 'roleId', as: 'role' });
+    User.hasMany(RefreshToken, { foreignKey: 'userId', as: 'refreshTokens' });
+  }
 }
 
 User.init(
@@ -48,3 +55,4 @@ User.init(
     tableName: 'users'
   }
 );
+
